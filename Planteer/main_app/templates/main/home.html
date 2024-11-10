@@ -1,0 +1,135 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Include Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .home-background {
+        background-color: #e8f5e9; /* Light green background */
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .welcome-text h2 {
+        color: #388e3c; /* Darker green for the text */
+    }
+
+    .search-bar {
+        margin-top: 20px;
+    }
+
+    .search-bar input {
+        padding: 10px;
+        border: 1px solid #388e3c;
+        border-radius: 4px;
+        width: 250px;
+    }
+
+    .search-bar button {
+        padding: 10px 15px;
+        background-color: #4caf50; /* Green button */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .search-bar button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+
+    .basic-background {
+        background-color: #f1f8e9; /* Slightly lighter green */
+        padding: 40px 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .featured-plants h2 {
+        color: #388e3c;
+        margin-bottom: 20px;
+    }
+
+    .plant-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .plant-card {
+        background: white;
+        border-radius: 8px;
+        margin: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: center;
+        width: 200px; /* Fixed width for cards */
+    }
+
+    .plant-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .plant-info {
+        padding: 15px;
+    }
+
+    .btn.explore-more {
+        margin-top: 20px;
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .btn.explore-more:hover {
+        background-color: #090c09; /* Darker green on hover */
+    }
+</style>
+
+<div class="homepage">
+    <div class="home-background">
+        <div class="welcome-text">
+            <h2>Explore an extraordinary range of plants, from rare flowers to common favorites!</h2>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search for plants" aria-label="Search for plants">
+            <a href="{% url 'plants_app:search_plants_view' %}">
+                <button>Search</button>
+            </a>
+        </div>
+    </div>
+    
+    <div class="basic-background">
+        <div class="featured-plants">
+            <h2>Featured Plants</h2>
+            <div class="plant-grid">  
+                {% for plant in plants|slice:":4" %} 
+                <div class="plant-card">
+                    <img src="{{ plant.image.url }}" class="plant-image" alt="{{ plant.name }}"/> 
+                    <div class="plant-info">
+                        <h3>{{ plant.name }}</h3>
+                        <h5>{{ plant.category }}</h5>
+                        <a href="{% url 'plants_app:plants_detail_view' plant.id %}" class="btn">More about {{ plant.name }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>  
+            <a href="{% url 'plants_app:all_plants_view' %}" class="btn explore-more">Explore more</a>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
